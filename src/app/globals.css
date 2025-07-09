@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #000000;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+ @keyframes fadeSlide {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-slide {
+    animation: fadeSlide 0.6s ease-out both;
+  }
+  @layer utilities {
+  .animate-spin-slow {
+    animation: spin 8s linear infinite;
+  }
+}
+@keyframes spin-slow {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+
+      /* styles/globals.css */
+.perspective {
+  perspective: 1000px;
+}
+
+.transform-style {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-x-180 {
+  transform: rotateX(180deg);
+}
+
+.hover\:rotate-x-180:hover {
+  transform: rotateX(180deg);
+}
+html, body {
+  overscroll-behavior: none;
+  scroll-behavior: auto; /* let ScrollSmoother take over */
+  overflow-x: hidden;
+}
+
+@keyframes borderGlow {
+  0% {
+    box-shadow: 0 0 0px #4E3682;
+  }
+  50% {
+    box-shadow: 0 0 20px #4E3682, 0 0 40px #4E3682;
+  }
+  100% {
+    box-shadow: 0 0 0px #4E3682;
+  }
+}
+
+.animate-borderGlow {
+  animation: borderGlow 2s infinite;
+}
