@@ -2,7 +2,7 @@
 
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
-
+import '../globals.css'
 const partners = [
   { name: 'Meta', image: '/images/brand1.png' },
   { name: 'Google', image: '/images/google.png' },
@@ -21,6 +21,7 @@ const PartnersSlider = () => {
       spacing: 20,
     },
     breakpoints: {
+      
       '(max-width: 768px)': {
         slides: { perView: 2 },
       },
@@ -39,11 +40,11 @@ const PartnersSlider = () => {
   });
 
   return (
-    <section className="py-20 bg-black text-white text-center">
-      <h2 className="text-lg font-light mb-8">Partners with</h2>
+    <section className=" max-w-7xl mx-auto w-full py-5 sm:py-10 md:py-20 bg-black text-white text-center">
+      <h2 className=" font-aktifo lg:text-[30px] font-light mb-8">Partners with</h2>
 
       <div
-        className="border-2 rounded-full px-8 py-12 border-white max-w-6xl mx-auto animate-borderGlow"
+        className="  max-w-7xl mx-auto   w-full border-2 rounded-full lg:px-12 py-12 border-white max-w-6xl mx-auto animate-borderGlow"
         style={{ borderColor: '#4E3682' }}
       >
         <div ref={sliderRef} className="keen-slider flex items-center">
@@ -55,7 +56,7 @@ const PartnersSlider = () => {
               <img
                 src={partner.image}
                 alt={partner.name}
-                className="h-10 object-contain"
+                className="  h-8   md:h-14 object-contain"
               />
             </div>
           ))}

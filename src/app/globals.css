@@ -2,6 +2,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'Aktifo A SemiBold';
+  src: url('/fonts/AktifoASemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 :root {
   --background: #000000;
@@ -92,4 +100,12 @@ html, body {
 
 .animate-borderGlow {
   animation: borderGlow 2s infinite;
+}
+#smooth-wrapper {
+  height: 100%;
+  overflow: hidden;
+}
+
+#smooth-content {
+  will-change: transform;
 }

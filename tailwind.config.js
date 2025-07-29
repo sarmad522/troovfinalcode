@@ -5,7 +5,13 @@ module.exports = {
     './src/component/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+
+
+      fontFamily: {
+        aktifo: ['"Aktifo A SemiBold"', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };

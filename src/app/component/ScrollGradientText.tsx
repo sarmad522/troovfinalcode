@@ -3,10 +3,22 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import RotatingCardSlider from './RotatingCardSlider';
+
 gsap.registerPlugin(ScrollTrigger);
 
-const GsapScrollSlideText: React.FC = () => {
+interface AboutUsScrollProps {
+  texts?: string[]; // Optional for flexibility
+  repeat?: number;
+  height?: string;
+  scrollSpeed?: number; // 80000 like value (larger = slower)
+}
+
+const AboutUsScroll: React.FC<AboutUsScrollProps> = ({
+  texts = ['Services'],
+  repeat = 2,
+  height = '40vh',
+  scrollSpeed = 80000, // slow scroll
+}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -15,69 +27,55 @@ const GsapScrollSlideText: React.FC = () => {
     const track = trackRef.current;
     if (!wrapper || !track) return;
 
-    // set initial text color
-    Array.from(track.children).forEach((el: any) => {
-      el.style.color = '#6C54A0';
-    });
-
-    // calculate actual scroll distance
     const trackWidth = track.scrollWidth - window.innerWidth;
 
-    // GSAP smooth horizontal scroll
-    gsap.to(track, {
+    const anim = gsap.to(track, {
       x: -trackWidth,
       ease: 'none',
       scrollTrigger: {
         trigger: wrapper,
         start: 'top bottom',
-        end: '+=2500', // longer distance = slower movement
+        end: `+=${scrollSpeed}`,
         scrub: 0.3,
-        onUpdate: (self) => {
-          const p = self.progress;
-          const r = Math.round(168 + (255 - 168) * p);
-          const g = Math.round(144 + (255 - 144) * p);
-          const b = Math.round(205 + (255 - 205) * p);
-          Array.from(track.children).forEach((el: any) => {
-            el.style.color = `rgb(${r},${g},${b})`;
-          });
-        }
-      }
+      },
     });
-  }, []);
+
+    return () => {
+      anim.kill();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [scrollSpeed]);
 
   return (
-    <div ref={wrapperRef} className="bg-transparent">
-      <div className=" ">
+   <div
+  ref={wrapperRef}
+  className="relative md:h-[40vh] z-10 "
+>
+      <div className="sticky top-0">
         <div
           ref={trackRef}
-          className="flex flex-nowrap"
-          style={{ width: '200vw' }}
+          className="flex flex-nowrap will-change-transform"
+          style={{ width: `${repeat * 100}vw` }}
         >
-          <div
-            className="flex-shrink-0 flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: '15vw',
-              minWidth: '120vw',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            ServicesServices
-          </div>
-          <div
-            className="flex-shrink-0 flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: '15vw',
-              minWidth: '120vw',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            ServicesServices
-          </div>
+          {Array.from({ length: repeat }).map((_, i) =>
+            texts.map((text, index) => (
+              <div
+                key={`${i}-${index}`}
+                className="  relative z-10 flex-shrink-0 flex items-center justify-center font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#A890CD] to-[#6C54A0]"
+                style={{
+                  fontSize: '15vw',
+                  minWidth: '120vw',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {text}
+              </div>
+            ))
+          )}
         </div>
       </div>
-      <RotatingCardSlider />
     </div>
   );
 };
 
-export default GsapScrollSlideText;
+export default AboutUsScroll;

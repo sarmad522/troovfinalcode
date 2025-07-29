@@ -9,40 +9,94 @@ import ScrollSmoother from 'gsap/dist/ScrollSmoother';
 
 import HeroSection from './component/HeroSection';
 import ScrollGradientText from './component/ScrollGradientText';
+import RotatingCardSlider from "./component/RotatingCardSlider";
 // import CustomSlider from './component/ServicesSlider';
 // import AboutUsScroll from './component/AboutUsScroll';
-// import ScrollTextFade from './component/ScrollTextFade';
+import ScrollTextFade from './component/ScrollTextFade';
 import FlipCard from "./component/FlipCard";
 import MissionScrollText from "./component/MissionScrollText";
 // import MissionVisionSection from "./component/MissionVisionSection";
 import CreativeSection from "./component/CreativeSection";
-import  MissionVisionScrollText from "./component/MissionVisionScrollText";
+import MissionVisionScrollText from "./component/MissionVisionScrollText";
 // import RotatingCardSlider from "./component/RotatingCardSlider";
 import WhereWeWork from "./component/WhereWeWork";
 import PartnersSlider from "./component/PartnersSlider";
 import Footer from './component/Footer';
+import Link from 'next/link';
+
 // import CaseStudiesSection from "./component/CaseStudiesSection";
+import CaseStudiesGrid from "./case-studies/CaseStudiesGrid";
+import Minsecondsection from "./component/Mainsecondsection"
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function Home() {
-  useEffect(() => {
-    ScrollSmoother.create({
-      wrapper: '#smooth-wrapper',
-      content: '#smooth-content',
-      smooth: 3.5,
-      effects: true,
-          
-     speed: 0.8,    
-    });
-  }, []);
+     useEffect(() => {
+  const smoother = ScrollSmoother.create({
+    wrapper: '#smooth-wrapper',
+    content: '#smooth-content',
+    smooth: 1.5,
+    effects: true,
+    speed: 0.8,
+  });
+
+  return () => {
+    smoother.kill(); // cleanup if component unmounts
+  };
+}, []);
+  const locations = [
+    {
+      title: 'Houston, United States',
+      image: '/images/wherrewework.png',
+      alt: 'Houston Skyline',
+    },
+    {
+      title: 'London, United Kingdom',
+      image: '/images/locationwork.png',
+      alt: 'London Tower Bridge',
+    },
+    {
+      title: 'Karachi, Pakistan',
+      image: '/images/wherework.png',
+      alt: 'Karachi Night View',
+    },
+  ];
+
+  const paragraph =
+    'Based in Karachi, our core team brings a global perspective to every project. We proudly collaborate with clients around the world, combining creative insight with streamlined remote processes to ensure smooth communication and seamless delivery, no matter where you are.';
 
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
         <div className="">
-          
-          <HeroSection />
-          <ScrollGradientText />
+
+          {/* <HeroSection /> */}
+          <HeroSection
+            description="We build bold brands, seamless experiences and digital strategies that drive results."
+            primaryBtnText="Let’s Talk"
+            primaryBtnLink="/contact"
+            secondaryBtnText="Our Work"
+            secondaryBtnLink="/work"
+          />
+          {/* <Minsecondsection/> */}
+          {/* <ScrollGradientText text="Services"
+        fontSizeVw={15}
+        scrollDistance={2500}
+        fromColor="#6C54A0"
+        toColor="#FFFFFF"
+      /> */}
+          <ScrollGradientText texts={['ServicesServices']}
+            repeat={2}
+            height="40vh"
+            scrollSpeed={110000}
+          />
+          <RotatingCardSlider />
+          {/* <ScrollGradientText
+        text="Services"
+        fontSizeVw={15}
+        scrollDistance={2500}
+        fromColor="#6C54A0"
+        toColor="#FFFFFF"
+      /> */}
           {/* <CustomSlider /> */}
           {/* <RotatingCardSlider/> */}
           <div
@@ -55,7 +109,7 @@ export default function Home() {
             {/* <AboutUsScroll />
             <ScrollTextFade /> */}
           </div>
-          <main className="flex items-center justify-center flex-wrap gap-8 md:py-10   md:px-5 bg-black">
+          <main className="flex items-center justify-center flex-wrap gap-8  px-2 md:pt-10   md:px-5 bg-black">
             <FlipCard
               title="Ideate"
               items={[
@@ -78,7 +132,7 @@ export default function Home() {
                 "Accessibility",
                 "Interaction and Motion",
                 "Lowcode Development",
-                
+
               ]}
               frontImage="/images/work2image.png"
               backImage="/images/blue.png"
@@ -99,24 +153,47 @@ export default function Home() {
           </main>
           <div
             style={{
-              backgroundImage: "url('/images/textbag.png')",
+              // backgroundImage: "url('/images/textbag.png')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-             <MissionVisionScrollText/>
+            <ScrollGradientText
+              texts={['ServicesServices']}
+              repeat={2}
+              height="40vh"
+              scrollSpeed={110000}
+            />
             {/* <MissionVisionSection /> */}
-            <MissionScrollText />
-           
+            {/* <MissionScrollText
+  text="Our mission is to transform bold ideas into purposeful digital experiences by empowering brands through design, innovation, and technology to create real world impact."
+  rightImage="/images/missingimageright.png"
+  leftImage="/images/rightimagemssion.png"
+/> */}
+            <div className="relative">
+              <img src="/images/leftimage.png" alt="" className="absolute  -top-150  -left-20  z-1" />
+              <ScrollTextFade text="Our mission is to transform bold ideas into purposeful digital experiences by empowering brands through design, innovation, and technology to create real world impact." />
+              <img src="/images/rightimage.png" alt="" className="absolute  -top-120  -right-20  z-1" />
+            </div>
           </div>
           <div>
             <CreativeSection />
-            <WhereWeWork/>
+
+            <WhereWeWork
+              title="Where We Work"
+              titleSize="text-[36px] md:text-[72px] lg:text-[100px]"
+              paragraph={paragraph}
+              locations={locations}
+              showCaseStudies
+              showContactSection
+            />
+
+            {/* <CaseStudiesGrid/> */}
             {/* <CaseStudiesSection/> */}
 
             {/* <ContactSection/> */}
-            <PartnersSlider/>
-            <Footer/>
+            <PartnersSlider />
+            <Footer />
           </div>
         </div>
       </div>

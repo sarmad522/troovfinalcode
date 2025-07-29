@@ -4,39 +4,40 @@ import { useEffect, useRef } from 'react';
 import { Fancybox as NativeFancybox } from '@fancyapps/ui';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import ContactSection from './ContactSection';
-
+import CaseStudiesGrid from '../case-studies/CaseStudiesGrid';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import '../globals.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const locations = [
-  {
-    title: 'Houston, United States',
-    image: '/images/wherrewework.png',
-    alt: 'Houston Skyline',
-  },
-  {
-    title: 'London, United Kingdom',
-    image: '/images/locationwork.png',
-    alt: 'London Tower Bridge',
-  },
-  {
-    title: 'Karachi, Pakistan',
-    image: '/images/wherework.png',
-    alt: 'Karachi Night View',
-  },
-];
+type Location = {
+  title: string;
+  image: string;
+  alt: string;
+};
 
-const WhereWeWork = () => {
+interface WhereWeWorkProps {
+  title?: string;
+  titleSize?: string;
+  paragraph: string;
+  locations: Location[];
+  showCaseStudies?: boolean;
+  showContactSection?: boolean;
+}
+
+const WhereWeWork: React.FC<WhereWeWorkProps> = ({
+  title = 'Where we work',
+  paragraph,
+  locations,
+  showCaseStudies = true,
+  showContactSection = true,
+}) => {
   const paragraphRef = useRef<HTMLParagraphElement>(null);
 
-  // ✅ Fancybox binding
   useEffect(() => {
     (NativeFancybox as any).bind('[data-fancybox="gallery"]', {
-      Thumbs: {
-        autoStart: true,
-      },
+      Thumbs: { autoStart: true },
       Toolbar: {
         display: ['zoom', 'close', 'fullscreen', 'thumbs'],
       },
@@ -47,26 +48,42 @@ const WhereWeWork = () => {
     };
   }, []);
 
-  // ✅ GSAP scroll-triggered word color animation
   useEffect(() => {
     const paragraph = paragraphRef.current;
     if (!paragraph) return;
 
-    const words = paragraph.querySelectorAll('.word');
+    const chars = paragraph.querySelectorAll('.char');
 
-    const tl = gsap.timeline({
+    // Animate each character left to right
+    gsap.fromTo(
+      chars,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        color: '#ffffff',
+        stagger: 0.01,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: paragraph,
+          start: 'top 85%',
+          end: 'bottom top',
+          scrub: true,
+        },
+      }
+    );
+
+    // Animate each location card smoothly
+    gsap.from('.location-card', {
+      opacity: 0,
+      y: 60,
+      stagger: 0.15,
+      duration: 1.2,
+      ease: 'power3.out',
       scrollTrigger: {
-        trigger: paragraph,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
+        trigger: '.locations-wrapper',
+        start: 'top 85%',
+        toggleActions: 'play none none reverse',
       },
-    });
-
-    tl.to(words, {
-      color: '#FFFFFF',
-      stagger: 0.05,
-      ease: 'none',
     });
 
     return () => {
@@ -74,56 +91,59 @@ const WhereWeWork = () => {
     };
   }, []);
 
-  const paragraph = `Based in Karachi, our core team brings a global perspective to every project. We proudly collaborate with clients around the world, combining creative insight with streamlined remote processes to ensure smooth communication and seamless delivery, no matter where you are.`;
-
-  const renderWords = paragraph.split(' ').map((word, index) => (
+  const renderCharacters = paragraph.split('').map((char, index) => (
     <span
       key={index}
-      className="word inline-block mr-1 will-change-[color]"
-      style={{ color: '#4B4B4B' }} // Initial gray
+      className="char inline-block will-change-[opacity] transition-opacity"
+      style={{ color: '#ffffff', opacity: 0 }}
     >
-      {word}
+      {char === ' ' ? '\u00A0' : char}
     </span>
   ));
 
   return (
-    <section className="bg-gradient-to-b from-black to-[#6C54A0] text-white py-0 px-4 text-center">
-      <h2 className=" sm:text-[52px]   md:text-[100px] lg:text-[120px] font-bold bg-gradient-to-r from-[#6C54A0] to-[#A890CD] bg-clip-text text-transparent ">
-        Where we work
+    <section className="bg-gradient-to-b from-black via-[#4E3682] to-[#000] text-white py-[50px] md:py-5 text-center">
+      <h2 className=" leading-tight  text-[40px] md:text-[72px] lg:text-[96px] font-bold bg-gradient-to-r from-[#6C54A0] to-[#A890CD] bg-clip-text text-transparent">
+        {title}
       </h2>
 
-      <div className="flex flex-wrap justify-center gap-8 mt-[-52]   mb-20">
+      {/* Location Cards */}
+      <div className="locations-wrapper max-w-7xl flex flex-wrap justify-center mx-auto gap-8 sm:mt-[0px] md:mt-[-52px] mb-20">
         {locations.map((loc, index) => (
           <a
             key={index}
             data-fancybox="gallery"
             href={loc.image}
             data-caption={loc.title}
-            className="w-full sm:w-[40%] md:w-[30%] lg:w-[25%] rounded-2xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 hover:shadow-[#6C54A0]"
+            className="location-card  mx-auto w-[98%]  sm:w-[98%] md:w-[45%] lg:w-[30%] rounded-xl overflow-hidden shadow-lg transform transition duration-300 hover:-translate-y-2 hover:shadow-[#6C54A0]"
           >
             <img
               src={loc.image}
               alt={loc.alt}
               className="w-full h-48 object-cover transition duration-300"
             />
-            <div className="py-4 font-semibold text-lg">{loc.title}</div>
+            <div className="py-4 text-[20px] font-aktifo">{loc.title}</div>
           </a>
         ))}
       </div>
 
-      {/* GSAP animated paragraph */}
-      <div className='mx-w-7xl  w-7xl  px-4 mx-auto'>
-      <p
-        ref={paragraphRef}
-        className="max-w-xl ml-auto sm:text-[22px]    md:text-[24px] text-start leading-relaxed flex flex-wrap gap-y-2 "
-      >
-        {renderWords}
-      </p>
-</div>
-      {/* Contact Form Component */}
-      <div className="mt-20">
-        <ContactSection />
+      {/* Animated Paragraph */}
+      <div className="max-w-7xl w-full px-2 md:px-5 mx-auto">
+        <p
+          ref={paragraphRef}
+          className="  font-aktifo max-w-2xl  w-full  md:w-[41%] md:ml-auto sm:text-[22px] mb-[10px] md:md:mb-[60px] lg:text-[22px] font-bold text-start sm:leading-[25px] md:leading-[30px] flex flex-wrap gap-y-2"
+        >
+          {renderCharacters}
+        </p>
+
+        {showCaseStudies && <CaseStudiesGrid />}
       </div>
+
+      {showContactSection && (
+        <div className="  md:mt-10 lg:mt-15">
+          <ContactSection />
+        </div>
+      )}
     </section>
   );
 };

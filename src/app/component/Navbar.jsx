@@ -11,17 +11,17 @@ export default function Navbar() {
     <header className="text-white fixed top-0 left-0 pt-2 z-50 px-0  sm:px-10 w-full bg-transparent">
       <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center relative z-30">
         {/* Logo */}
-        <div className="w-20 sm:w-40">
-          <img src="/images/logo.svg" alt="Logo" className="sm:w-[40px] md:w-[80px]  h-auto" />
+        <div className="w-20 sm:w-32">
+          <img src="/images/logothrove.png" alt="Logo" className="  w-[30px] sm:w-[32px] md:w-[55px]  h-auto" />
         </div>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-4 ">
           <div className="flex items-center bg-[#6C54A0] rounded-lg px-4 py-3 gap-4 text-sm font-medium">
             <Link href="/" className="hover:underline font-bold">Home</Link>
-            <Link href="/about" className="hover:underline">About</Link>
+            <Link href="/about" className="hover:underline ">About</Link>
             <Link href="/career" className="hover:underline">Career</Link>
-            <Link href="/case-studies" className="hover:underline">Case Studies</Link>
+            <Link href="/case-studie" className="hover:underline">Case Studies</Link>
             <Link href="/contact" className="hover:underline">Contact</Link>
           </div>
 

@@ -17,59 +17,39 @@ const AboutUsScroll: React.FC = () => {
 
     const trackWidth = track.scrollWidth - window.innerWidth;
 
-    Array.from(track.children).forEach((el: any) => {
-      el.style.color = '#A890CD';
-    });
-
     gsap.to(track, {
       x: -trackWidth,
       ease: 'none',
       scrollTrigger: {
         trigger: wrapper,
         start: 'top bottom',
-        end: '+=2500', // controls duration — consistent scroll
-        scrub: 0.3,    // smoother, with slight delay
-        onUpdate: (self) => {
-          const p = self.progress;
-          const r = Math.round(168 + (255 - 168) * p);
-          const g = Math.round(144 + (255 - 144) * p);
-          const b = Math.round(205 + (255 - 205) * p);
-          Array.from(track.children).forEach((el: any) => {
-            el.style.color = `rgb(${r},${g},${b})`;
-          });
-        },
+        end: '+=80000', // slow scroll
+        scrub: 0.3,
       },
     });
   }, []);
 
   return (
-    <div ref={wrapperRef} className="  md:h-[40vh]">
-      <div className="sticky top-0  overflow-hidden">
+    <div ref={wrapperRef} className="md:h-[40vh]">
+      <div className="sticky top-0 overflow-hidden">
         <div
           ref={trackRef}
           className="flex flex-nowrap"
           style={{ width: '200vw' }}
         >
-          <div
-            className="flex-shrink-0 flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: '15vw',
-              minWidth: '120vw',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            AboutUsAboutUs
-          </div>
-          <div
-            className="flex-shrink-0 flex items-center justify-center font-extrabold"
-            style={{
-              fontSize: '15vw',
-              minWidth: '120vw',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            AboutUsAboutUs
-          </div>
+          {[...Array(2)].map((_, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 flex items-center justify-center font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#A890CD] to-[#6C54A0] "
+              style={{
+                fontSize: '15vw',
+                minWidth: '120vw',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              AboutUsAboutUs
+            </div>
+          ))}
         </div>
       </div>
     </div>
