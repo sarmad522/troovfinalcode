@@ -4,7 +4,7 @@ import { caseStudies } from "../../data/caseStudies";
 
 type Props = { params: { slug: string } };
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return caseStudies.map(cs => ({ slug: cs.slug }));
 }
 
