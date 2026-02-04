@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Fancybox as NativeFancybox } from '@fancyapps/ui';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 import ContactSection from './ContactSection';
-import CaseStudiesGrid from '../case-studies/CaseStudiesGrid';
+// import CaseStudiesGrid from '../case-studies/CaseStudiesGrid';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import '../globals.css';
@@ -136,7 +136,7 @@ const WhereWeWork: React.FC<WhereWeWorkProps> = ({
           {renderCharacters}
         </p>
 
-        {showCaseStudies && <CaseStudiesGrid />}
+        {/* {showCaseStudies && <CaseStudiesGrid />} */}
       </div>
 
       {showContactSection && (

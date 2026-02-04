@@ -2,10 +2,11 @@ import type { NextConfig } from "next";
 // next.config.ts
 
 const nextConfig = {
-  experimental: {
-    turbo: false, // ✅ disable Turbopack
+  output: 'export',
+  images: {
+    unoptimized: true, // ✅ required for static export
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
 

@@ -25,7 +25,6 @@ import Footer from './component/Footer';
 import Link from 'next/link';
 
 // import CaseStudiesSection from "./component/CaseStudiesSection";
-import CaseStudiesGrid from "./case-studies/CaseStudiesGrid";
 import Minsecondsection from "./component/Mainsecondsection"
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
